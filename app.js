@@ -1,9 +1,8 @@
 var confArrayNumber;
 var notes = [];
 var TelegramBot = require('node-telegram-bot-api');
-var token = "ВАШ ТОКЕН";
+var token = "Р’РђРЁ РўРћРљР•Рќ";
 var bot = new TelegramBot(token, {polling: true});
-
 
 var namiLib = require("nami");
 if (process.argv.length !== 6) {
@@ -19,7 +18,7 @@ bot.sendMessage(msg.chat.id, 'pong');
 bot.onText(/\/conf (.+)$/, function (msg, match) {
 confArrayNumber = match[1].split(';');
 for(var i = 0; i < confArrayNumber.length; i++ ) {
-bot.sendMessage( msg.from.id ,'Вызываем и добавляем в конференцию номер '+confArrayNumber[i]);
+bot.sendMessage( msg.from.id ,'Р’С‹Р·С‹РІР°РµРј Рё РґРѕР±Р°РІР»СЏРµРј РІ РєРѕРЅС„РµСЂРµРЅС†РёСЋ РЅРѕРјРµСЂ '+confArrayNumber[i]);
 callConfNumber(confArrayNumber[i]);
   }
 console.log(msg);
@@ -32,7 +31,7 @@ console.log(msg);
 	var confnumber = match[2];
 	
 	notes.push( { 'uid':chatId, 'time':conftime, 'number':confnumber } );
-    bot.sendMessage(chatId, 'Отлично! Я обязательно создам конференцию, если буду работать :)');
+    bot.sendMessage(chatId, 'РћС‚Р»РёС‡РЅРѕ! РЇ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ СЃРѕР·РґР°Рј РєРѕРЅС„РµСЂРµРЅС†РёСЋ, РµСЃР»Рё Р±СѓРґСѓ СЂР°Р±РѕС‚Р°С‚СЊ :)');
 	
 
 });
@@ -40,32 +39,32 @@ console.log(msg);
 
 function callConfNumber(confArrayNumber){
 var action = new namiLib.Actions.Originate();
-action.channel = "SIP/zadarma/"+confArrayNumber;
+action.channel = "SIP/operator/"+confArrayNumber;
 action.callerid = "3157776677";
 action.priority = "1";
 action.timeout = "50000";
-action.context = "conference";
+action.context = "myasterbot";
 action.exten = 9000;
 action.ActionID = "1";
 action.async = "yes";
 nami.send(action);
 } 
 
-	   setInterval(function(){
-        for (var i = 0; i < notes.length; i++){
-            var curDate = new Date().getHours() + ':' + new Date().getMinutes();
-                if ( notes[i]['time'] == curDate ) {
-                    bot.sendMessage(notes[i]['uid'], 'Напоминаю, сейчас будет создана конференция с номерами : '+ notes[i]['number']);
-										
-						confArrayNumber = notes[0]['number'].split(';');
-						for(var b = 0; b < confArrayNumber.length; b++ ) {
-						callConfNumber(confArrayNumber[b]);
-						bot.sendMessage( notes[i]['uid'],'Вызываем и добавляем в конференцию номер '+confArrayNumber[b]);
-						}  
-					 notes.splice(i,1);
-				}
-            }
-    },1000);
+setInterval(function(){
+   for (var i = 0; i < notes.length; i++){
+         var curDate = new Date().getHours() + ':' + new Date().getMinutes();
+              if ( notes[i]['time'] == curDate ) {
+                  bot.sendMessage(notes[i]['uid'], 'РќР°РїРѕРјРёРЅР°СЋ, СЃРµР№С‡Р°СЃ Р±СѓРґРµС‚ СЃРѕР·РґР°РЅР° РєРѕРЅС„РµСЂРµРЅС†РёСЏ СЃ РЅРѕРјРµСЂР°РјРё : '+ notes[i]['number']);
+							
+				confArrayNumber = notes[0]['number'].split(';');
+				for(var b = 0; b < confArrayNumber.length; b++ ) {
+				callConfNumber(confArrayNumber[b]);
+				bot.sendMessage( notes[i]['uid'],'Р’С‹Р·С‹РІР°РµРј Рё РґРѕР±Р°РІР»СЏРµРј РІ РєРѕРЅС„РµСЂРµРЅС†РёСЋ РЅРѕРјРµСЂ '+confArrayNumber[b]);
+				}  
+		 notes.splice(i,1);
+		}
+     }
+},1000);
 
 var namiConfig = {
     host: process.argv[2],
