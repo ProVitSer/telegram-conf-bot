@@ -1,1 +1,1 @@
-# telegram-conf-bot
+# Asterisk Telegrem conference bot
